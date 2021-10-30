@@ -82,19 +82,18 @@ export async function storeCode(
 export async function instantiateContract(
   terra: LocalTerra | LCDClient,
   deployer: Wallet,
-  admin: Wallet, // leave this emtpy then contract is not migratable
+  admin: string,
   codeId: number,
   instantiateMsg: object
 ) {
-  const result = await sendTransaction(terra, deployer, [
-    new MsgInstantiateContract(
-      deployer.key.accAddress,
-      admin.key.accAddress,
-      codeId,
-      instantiateMsg
-    ),
-  ]);
-  return result;
+  return await sendTransaction(terra, deployer, [
+      new MsgInstantiateContract(
+          deployer.key.accAddress,
+          admin,
+          codeId,
+          instantiateMsg
+      ),
+  ])
 }
 
 /**
